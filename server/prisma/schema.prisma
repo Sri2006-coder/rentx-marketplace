@@ -1,0 +1,150 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ENUMS
+enum Role {
+  USER
+  ADMIN
+}
+
+enum ItemStatus {
+  ACTIVE
+  INACTIVE
+  HIDDEN
+}
+
+enum BookingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  CONFIRMED
+  ACTIVE
+  RETURNED
+  COMPLETED
+  CANCELLED
+}
+
+// MODELS
+model User {
+  id           String   @id @default(uuid())
+  firstName    String
+  lastName     String
+  email        String   @unique
+  passwordHash String
+  role         Role     @default(USER)
+  profileImage String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  items        Item[]    @relation("UserItems")
+  bookings     Booking[] @relation("UserBookings")
+  wishlists    Wishlist[]
+  auditLogs    AuditLog[]
+}
+
+model Item {
+  id              String     @id @default(uuid())
+  ownerId         String
+  title           String
+  description     String
+  dailyRate       Decimal
+  securityDeposit Decimal
+  category        String
+  condition       String
+  city            String
+  state           String?
+  status          ItemStatus @default(ACTIVE)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  deletedAt       DateTime?
+
+  owner           User           @relation("UserItems", fields: [ownerId], references: [id], onDelete: Cascade)
+  images          ItemImage[]
+  bookings        Booking[]
+  wishlists       Wishlist[]
+  availabilities  Availability[]
+
+  @@index([category])
+  @@index([ownerId])
+  @@index([status])
+}
+
+model ItemImage {
+  id        String   @id @default(uuid())
+  itemId    String
+  imageUrl  String
+  isPrimary Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([itemId])
+}
+
+model Booking {
+  id               String        @id @default(uuid())
+  itemId           String
+  renterId         String
+  startDate        DateTime
+  endDate          DateTime
+  totalPrice       Decimal
+  status           BookingStatus @default(PENDING)
+  actualReturnDate DateTime?
+  lateFee          Decimal?
+  notes            String?
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  item             Item          @relation(fields: [itemId], references: [id])
+  renter           User          @relation("UserBookings", fields: [renterId], references: [id])
+
+  @@index([itemId])
+  @@index([renterId])
+  @@index([status])
+  @@index([startDate, endDate])
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  userId    String
+  itemId    String
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, itemId])
+  @@index([userId])
+}
+
+model Availability {
+  id          String   @id @default(uuid())
+  itemId      String
+  blockedFrom DateTime
+  blockedTo   DateTime
+  reason      String?
+
+  item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([itemId])
+  @@index([blockedFrom, blockedTo])
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  action     String   
+  entityType String   
+  entityId   String
+  createdAt  DateTime @default(now())
+
+  user       User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId])
+  @@index([userId])
+}
