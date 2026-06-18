@@ -10,6 +10,7 @@ import wishlistRoutes from './modules/wishlist/wishlist.routes';
 import verificationRoutes from './modules/verification/verification.routes';
 import paymentRoutes from './modules/payment/payment.routes';
 import adminRoutes from './modules/admin/admin.routes';
+import chatRoutes from './modules/chat/chat.routes';
 import { VerificationController } from './modules/verification/verification.controller';
 import { errorHandler } from './api/middlewares/errorHandler';
 import { verifyCloudinaryConnection } from './config/cloudinary';
@@ -39,6 +40,7 @@ app.use('/api/v1/wishlist', wishlistRoutes);
 app.use('/api/v1/verification', verificationRoutes);
 app.use('/api/v1/payments', paymentRoutes);
 app.use('/api/v1/admin', adminRoutes);
+app.use('/api/v1/chat', chatRoutes);
 
 // Custom user trust score route
 app.get('/api/v1/users/:id/trust-score', VerificationController.getUserTrustScore);

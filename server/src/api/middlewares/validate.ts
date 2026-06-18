@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { AnyZodObject, ZodError } from 'zod';
+import { ZodSchema, ZodError } from 'zod';
 import { BadRequestError } from '@/core/exceptions/AppError';
 
-export const validate = (schema: AnyZodObject, source: 'body' | 'query' | 'params' = 'body') => {
+export const validate = (schema: ZodSchema, source: 'body' | 'query' | 'params' = 'body') => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
       const validatedData = await schema.parseAsync(req[source]);
@@ -15,7 +15,7 @@ export const validate = (schema: AnyZodObject, source: 'body' | 'query' | 'param
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const issues = error.issues || error.errors || [];
+        const issues = error.issues || [];
         const messages = issues.map((err: any) => `${err.path.join('.')}: ${err.message}`).join(', ');
         next(new BadRequestError(messages || 'Validation failed'));
       } else {

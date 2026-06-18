@@ -22,7 +22,7 @@ export class AdminController {
 
   static async suspendUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await AdminService.suspendUser(req.user!.id, req.params.id);
+      const user = await AdminService.suspendUser(req.user!.id, req.params.id as string);
       res.json({ success: true, data: user, message: 'User suspended' });
     } catch (error) {
       next(error);
@@ -31,7 +31,7 @@ export class AdminController {
 
   static async activateUser(req: Request, res: Response, next: NextFunction) {
     try {
-      const user = await AdminService.activateUser(req.user!.id, req.params.id);
+      const user = await AdminService.activateUser(req.user!.id, req.params.id as string);
       res.json({ success: true, data: user, message: 'User activated' });
     } catch (error) {
       next(error);
@@ -49,7 +49,7 @@ export class AdminController {
 
   static async approveVerification(req: Request, res: Response, next: NextFunction) {
     try {
-      const profile = await AdminService.approveVerification(req.user!.id, req.params.id);
+      const profile = await AdminService.approveVerification(req.user!.id, req.params.id as string);
       res.json({ success: true, data: profile, message: 'Verification approved' });
     } catch (error) {
       next(error);
@@ -58,7 +58,7 @@ export class AdminController {
 
   static async rejectVerification(req: Request, res: Response, next: NextFunction) {
     try {
-      const profile = await AdminService.rejectVerification(req.user!.id, req.params.id);
+      const profile = await AdminService.rejectVerification(req.user!.id, req.params.id as string);
       res.json({ success: true, data: profile, message: 'Verification rejected' });
     } catch (error) {
       next(error);
@@ -77,7 +77,7 @@ export class AdminController {
   static async updateItemStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const { status } = req.body;
-      const item = await AdminService.updateItemStatus(req.user!.id, req.params.id, status);
+      const item = await AdminService.updateItemStatus(req.user!.id, req.params.id as string, status);
       res.json({ success: true, data: item, message: `Item status updated to ${status}` });
     } catch (error) {
       next(error);
@@ -95,7 +95,7 @@ export class AdminController {
 
   static async cancelBooking(req: Request, res: Response, next: NextFunction) {
     try {
-      const booking = await AdminService.cancelBooking(req.user!.id, req.params.id);
+      const booking = await AdminService.cancelBooking(req.user!.id, req.params.id as string);
       res.json({ success: true, data: booking, message: 'Booking cancelled' });
     } catch (error) {
       next(error);
@@ -123,7 +123,7 @@ export class AdminController {
   static async updateDisputeStatus(req: Request, res: Response, next: NextFunction) {
     try {
       const { status, resolution } = req.body;
-      const dispute = await AdminService.updateDisputeStatus(req.user!.id, req.params.id, status, resolution);
+      const dispute = await AdminService.updateDisputeStatus(req.user!.id, req.params.id as string, status, resolution);
       res.json({ success: true, data: dispute, message: `Dispute updated to ${status}` });
     } catch (error) {
       next(error);

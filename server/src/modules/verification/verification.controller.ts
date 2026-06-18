@@ -8,7 +8,7 @@ import path from 'path';
 export class VerificationController {
   static async uploadDocuments(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = (req as any).user.id;
+      const userId = req.user!.id;
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
       if (!files || !files.aadhaar || !files.pan) {
@@ -60,7 +60,7 @@ export class VerificationController {
 
   static async autoVerify(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = (req as any).user.id;
+      const userId = req.user!.id;
       const { score, ocrText } = req.body;
       const files = req.files as { [fieldname: string]: Express.Multer.File[] };
 
@@ -110,7 +110,7 @@ export class VerificationController {
 
   static async getStatus(req: Request, res: Response, next: NextFunction) {
     try {
-      const userId = (req as any).user.id;
+      const userId = req.user!.id;
       const result = await VerificationService.getStatus(userId);
       res.status(200).json({ success: true, data: result });
     } catch (error) {
@@ -121,7 +121,7 @@ export class VerificationController {
   static async approveVerification(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params; // userId to approve
-      const result = await VerificationService.approveVerification(id);
+      const result = await VerificationService.approveVerification(id as string);
       res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);
@@ -131,7 +131,7 @@ export class VerificationController {
   static async rejectVerification(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params; // userId to reject
-      const result = await VerificationService.rejectVerification(id);
+      const result = await VerificationService.rejectVerification(id as string);
       res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);
@@ -141,7 +141,7 @@ export class VerificationController {
   static async getUserTrustScore(req: Request, res: Response, next: NextFunction) {
     try {
       const { id } = req.params;
-      const result = await VerificationService.getStatus(id);
+      const result = await VerificationService.getStatus(id as string);
       res.status(200).json({ success: true, data: result });
     } catch (error) {
       next(error);

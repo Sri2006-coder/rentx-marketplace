@@ -1917,3 +1917,137 @@ Unknown argument `ocrText`. Available options are marked with ?.
     at Function.getMe (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.service.ts:61:13)
     at processTicksAndRejections (node:internal/process/task_queues:95:5)
     at getMe (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.controller.ts:70:20)
+2026-06-18T14:49:49.627Z TypeError: Cannot read properties of undefined (reading 'findFirst')
+    at Function.createOrGetConversation (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\chat\chat.service.ts:50:44)
+    at createConversation (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\chat\chat.controller.ts:26:46)
+    at Layer.handleRequest (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\index.js:295:15
+    at processParams (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\index.js:582:12)
+    at next (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\index.js:291:5)
+2026-06-18T14:50:11.981Z TypeError: Cannot read properties of undefined (reading 'findFirst')
+    at Function.createOrGetConversation (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\chat\chat.service.ts:50:44)
+    at createConversation (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\chat\chat.controller.ts:26:46)
+    at Layer.handleRequest (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\lib\layer.js:152:17)
+    at next (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\lib\route.js:157:13)
+    at Route.dispatch (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\lib\route.js:117:3)
+    at handle (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\index.js:435:11)
+    at Layer.handleRequest (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\lib\layer.js:152:17)
+    at C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\index.js:295:15
+    at processParams (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\index.js:582:12)
+    at next (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\router\index.js:291:5)
+2026-06-18T14:51:45.502Z PrismaClientKnownRequestError: 
+Invalid `db.conversation.findFirst()` invocation in
+C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\chat\chat.service.ts:50:44
+
+  47 let conversation;
+  48 
+  49 if (itemId) {
+→ 50   conversation = await db.conversation.findFirst(
+Authentication failed against the database server, the provided database credentials for `postgres` are not valid
+    at zr.handleRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:237:13)
+    at zr.handleAndLogRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:183:12)
+    at zr.request (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:152:12)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at a (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:963:24)
+    at Function.createOrGetConversation (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\chat\chat.service.ts:50:22)
+    at createConversation (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\chat\chat.controller.ts:26:28)
+2026-06-18T14:51:50.907Z PrismaClientKnownRequestError: 
+Invalid `db.booking.findUnique()` invocation in
+C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\booking\booking.repository.ts:79:23
+
+  76 }
+  77 
+  78 static async findById(id: string) {
+→ 79   return db.booking.findUnique(
+Authentication failed against the database server, the provided database credentials for `postgres` are not valid
+    at zr.handleRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:237:13)
+    at zr.handleAndLogRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:183:12)
+    at zr.request (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:152:12)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at a (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:963:24)
+    at Function.getBookingDetails (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\booking\booking.service.ts:48:21)
+    at getBookingDetails (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\booking\booking.controller.ts:34:23)
+2026-06-18T14:51:51.173Z PrismaClientKnownRequestError: 
+Invalid `db.user.findUnique()` invocation in
+C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.repository.ts:10:20
+
+   7 }
+   8 
+   9 static async findUserById(id: string) {
+→ 10   return db.user.findUnique(
+Authentication failed against the database server, the provided database credentials for `postgres` are not valid
+    at zr.handleRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:237:13)
+    at zr.handleAndLogRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:183:12)
+    at zr.request (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:152:12)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at a (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:963:24)
+    at Function.getMe (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.service.ts:59:18)
+    at getMe (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.controller.ts:70:20)
+2026-06-18T14:54:58.349Z PrismaClientKnownRequestError: 
+Invalid `db.user.findUnique()` invocation in
+C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.repository.ts:10:20
+
+   7 }
+   8 
+   9 static async findUserById(id: string) {
+→ 10   return db.user.findUnique(
+Authentication failed against the database server, the provided database credentials for `postgres` are not valid
+    at zr.handleRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:237:13)
+    at zr.handleAndLogRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:183:12)
+    at zr.request (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:152:12)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at a (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:963:24)
+    at Function.getMe (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.service.ts:59:18)
+    at getMe (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.controller.ts:70:20)
+2026-06-18T14:54:58.368Z PrismaClientKnownRequestError: 
+Invalid `db.booking.findUnique()` invocation in
+C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\booking\booking.repository.ts:79:23
+
+  76 }
+  77 
+  78 static async findById(id: string) {
+→ 79   return db.booking.findUnique(
+Authentication failed against the database server, the provided database credentials for `postgres` are not valid
+    at zr.handleRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:237:13)
+    at zr.handleAndLogRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:183:12)
+    at zr.request (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:152:12)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at a (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:963:24)
+    at Function.getBookingDetails (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\booking\booking.service.ts:48:21)
+    at getBookingDetails (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\booking\booking.controller.ts:34:23)
+2026-06-18T14:58:31.548Z PrismaClientKnownRequestError: 
+Invalid `db.booking.findUnique()` invocation in
+C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\booking\booking.repository.ts:79:23
+
+  76 }
+  77 
+  78 static async findById(id: string) {
+→ 79   return db.booking.findUnique(
+Authentication failed against the database server, the provided database credentials for `postgres` are not valid
+    at zr.handleRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:237:13)
+    at zr.handleAndLogRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:183:12)
+    at zr.request (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:152:12)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at a (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:963:24)
+    at Function.getBookingDetails (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\booking\booking.service.ts:48:21)
+    at getBookingDetails (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\booking\booking.controller.ts:34:23)
+2026-06-18T14:58:31.563Z PrismaClientKnownRequestError: 
+Invalid `db.user.findUnique()` invocation in
+C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.repository.ts:10:20
+
+   7 }
+   8 
+   9 static async findUserById(id: string) {
+→ 10   return db.user.findUnique(
+Authentication failed against the database server, the provided database credentials for `postgres` are not valid
+    at zr.handleRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:237:13)
+    at zr.handleAndLogRequestError (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:183:12)
+    at zr.request (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\RequestHandler.ts:152:12)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at a (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\node_modules\@prisma\client\src\runtime\getPrismaClient.ts:963:24)
+    at Function.getMe (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.service.ts:59:18)
+    at getMe (C:\Users\Srimathi\OneDrive\Desktop\projects\products\server\src\modules\auth\auth.controller.ts:70:20)

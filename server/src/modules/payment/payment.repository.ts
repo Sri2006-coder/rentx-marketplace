@@ -10,6 +10,13 @@ export class PaymentRepository {
         amount: data.amount,
         securityDeposit: data.securityDeposit,
         totalAmount: data.totalAmount,
+      },
+      include: {
+        booking: {
+          include: {
+            item: true
+          }
+        }
       }
     });
   }

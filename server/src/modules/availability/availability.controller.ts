@@ -9,7 +9,7 @@ export class AvailabilityController {
         blockedTo: new Date(req.body.blockedTo),
         reason: req.body.reason,
       };
-      const block = await AvailabilityService.blockDates(req.user!.id, req.params.itemId, data);
+      const block = await AvailabilityService.blockDates(req.user!.id, req.params.itemId as string, data);
       res.status(201).json({ success: true, data: block, message: 'Dates blocked successfully' });
     } catch (error) {
       next(error);
@@ -18,7 +18,7 @@ export class AvailabilityController {
 
   static async unblockDates(req: Request, res: Response, next: NextFunction) {
     try {
-      await AvailabilityService.unblockDates(req.user!.id, req.params.itemId, req.params.id);
+      await AvailabilityService.unblockDates(req.user!.id, req.params.itemId as string, req.params.id as string);
       res.status(200).json({ success: true, message: 'Dates unblocked successfully' });
     } catch (error) {
       next(error);
@@ -27,7 +27,7 @@ export class AvailabilityController {
 
   static async getAvailability(req: Request, res: Response, next: NextFunction) {
     try {
-      const availability = await AvailabilityService.getAvailability(req.params.itemId);
+      const availability = await AvailabilityService.getAvailability(req.params.itemId as string);
       res.status(200).json({ success: true, data: availability, message: 'Availability retrieved' });
     } catch (error) {
       next(error);

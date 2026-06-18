@@ -56,7 +56,7 @@ export class PaymentService {
     const securityDeposit = Number(booking.item.securityDeposit);
     const totalAmount = rentalAmount + securityDeposit;
 
-    payment = await PaymentRepository.createPayment({
+    const newPayment = await PaymentRepository.createPayment({
       bookingId: booking.id,
       renterId: userId,
       amount: rentalAmount,
@@ -64,8 +64,8 @@ export class PaymentService {
       totalAmount
     });
 
-    await AuditService.logAction('PAYMENT_INTENT_CREATED', 'PAYMENT', payment.id, userId);
-    return payment;
+    await AuditService.logAction('PAYMENT_INTENT_CREATED', 'PAYMENT', newPayment.id, userId);
+    return newPayment;
   }
 
   static async mockPaymentSuccess(paymentId: string, userId: string) {

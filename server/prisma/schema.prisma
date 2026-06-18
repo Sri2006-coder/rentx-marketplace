@@ -82,8 +82,11 @@ model User {
   reviewsReceived Review[]       @relation("ReviewsReceived")
   trustProfile    TrustProfile?
   payments        Payment[]
-  disputesFiled   Dispute[]      @relation("DisputesFiled")
-  disputesAgainst Dispute[]      @relation("DisputesAgainst")
+  disputesFiled         Dispute[]      @relation("DisputesFiled")
+  disputesAgainst       Dispute[]      @relation("DisputesAgainst")
+  conversationsAsOwner  Conversation[] @relation("ConversationsAsOwner")
+  conversationsAsRenter Conversation[] @relation("ConversationsAsRenter")
+  messagesSent          Message[]      @relation("MessagesSent")
 }
 
 model Item {
@@ -109,6 +112,7 @@ model Item {
   wishlists       Wishlist[]
   availabilities  Availability[]
   reviews         Review[]
+  conversations   Conversation[]
 
   @@index([category])
   @@index([ownerId])
@@ -279,4 +283,38 @@ model Dispute {
   @@index([bookingId])
   @@index([filerId])
   @@index([status])
+}
+
+model Conversation {
+  id        String   @id @default(uuid())
+  ownerId   String
+  renterId  String
+  itemId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner    User      @relation("ConversationsAsOwner", fields: [ownerId], references: [id])
+  renter   User      @relation("ConversationsAsRenter", fields: [renterId], references: [id])
+  item     Item?     @relation(fields: [itemId], references: [id])
+  messages Message[]
+
+  @@index([ownerId])
+  @@index([renterId])
+  @@index([itemId])
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String
+  senderId       String
+  content        String
+  isRead         Boolean      @default(false)
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  sender       User         @relation("MessagesSent", fields: [senderId], references: [id])
+
+  @@index([conversationId])
+  @@index([senderId])
 }

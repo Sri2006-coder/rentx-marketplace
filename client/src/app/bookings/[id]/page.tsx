@@ -9,7 +9,7 @@ import { BookingTimeline } from '@/components/ui/BookingTimeline';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { format } from 'date-fns';
-import { Calendar as CalendarIcon, MapPin, Shield, User as UserIcon, Star } from 'lucide-react';
+import { Calendar as CalendarIcon, MapPin, Shield, User as UserIcon, Star, MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import { RatingStars } from '@/components/ui/RatingStars';
 
@@ -81,6 +81,19 @@ export default function BookingDetailsPage() {
       setReviewError(err.response?.data?.message || 'Failed to submit review');
     } finally {
       setReviewSubmitLoading(false);
+    }
+  };
+
+  const handleMessage = async () => {
+    try {
+      const res = await api.post('/chat/conversations', {
+        ownerId: booking.item.ownerId,
+        renterId: booking.renterId,
+        itemId: booking.itemId
+      });
+      router.push(`/messages/${res.data.data.id}`);
+    } catch (err: any) {
+      alert(err.response?.data?.message || 'Failed to start conversation.');
     }
   };
 
@@ -371,6 +384,11 @@ export default function BookingDetailsPage() {
                   </div>
                 </div>
               </div>
+
+              <Button className="w-full mt-6" variant="outline" onClick={handleMessage}>
+                <MessageSquare className="w-4 h-4 mr-2" />
+                {isOwner ? 'Message Renter' : 'Message Owner'}
+              </Button>
             </CardContent>
           </Card>
         </div>

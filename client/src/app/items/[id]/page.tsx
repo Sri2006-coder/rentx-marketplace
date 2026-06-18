@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { MapPin, Shield, Calendar as CalendarIcon, User as UserIcon } from 'lucide-react';
+import { MapPin, Shield, Calendar as CalendarIcon, User as UserIcon, MessageSquare } from 'lucide-react';
 import Image from 'next/image';
 import { useParams, useRouter } from 'next/navigation';
 import { DayPicker, DateRange } from 'react-day-picker';
@@ -155,6 +155,28 @@ export default function ItemDetailsPage() {
     }
   };
 
+  const handleMessageOwner = async () => {
+    if (!user) {
+      router.push('/login');
+      return;
+    }
+    if (user.id === item.ownerId) {
+      setError('You cannot message yourself.');
+      return;
+    }
+
+    try {
+      const res = await api.post('/chat/conversations', {
+        ownerId: item.ownerId,
+        renterId: user.id,
+        itemId: item.id
+      });
+      router.push(`/messages/${res.data.data.id}`);
+    } catch (err: any) {
+      setError(err.response?.data?.message || 'Failed to start conversation.');
+    }
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid md:grid-cols-2 gap-10">
@@ -249,6 +271,13 @@ export default function ItemDetailsPage() {
                   </div>
                 )}
               </div>
+              {user && user.id !== item.ownerId && (
+                <div className="mt-4">
+                  <Button variant="outline" className="w-full sm:w-auto" onClick={handleMessageOwner}>
+                    <MessageSquare className="w-4 h-4 mr-2" /> Message Owner
+                  </Button>
+                </div>
+              )}
             </div>
 
             <hr className="border-white/10" />

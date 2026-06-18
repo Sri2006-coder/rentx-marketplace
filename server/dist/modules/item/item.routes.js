@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const item_controller_1 = require("./item.controller");
+const validate_1 = require("@/api/middlewares/validate");
+const item_schema_1 = require("./item.schema");
+const requireAuth_1 = require("@/api/middlewares/requireAuth");
+const upload_1 = require("@/api/middlewares/upload");
+const availability_routes_1 = __importDefault(require("../availability/availability.routes"));
+const router = (0, express_1.Router)();
+router.use('/:itemId/availability', availability_routes_1.default);
+router.post('/', requireAuth_1.requireAuth, upload_1.upload.array('images', 5), (0, validate_1.validate)(item_schema_1.createItemSchema), item_controller_1.ItemController.createItem);
+router.get('/', (0, validate_1.validate)(item_schema_1.itemQuerySchema, 'query'), item_controller_1.ItemController.getItems);
+router.get('/:id', item_controller_1.ItemController.getItemById);
+router.put('/:id', requireAuth_1.requireAuth, (0, validate_1.validate)(item_schema_1.updateItemSchema), item_controller_1.ItemController.updateItem);
+router.delete('/:id', requireAuth_1.requireAuth, item_controller_1.ItemController.deleteItem);
+exports.default = router;

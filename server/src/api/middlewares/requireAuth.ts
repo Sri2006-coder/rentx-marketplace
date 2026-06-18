@@ -12,12 +12,11 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
 
     const payload = verifyAccessToken(token);
     
-    // Backward compatibility for existing tokens that used 'userId' instead of 'id'
-    if (payload.userId && !payload.id) {
-      payload.id = payload.userId;
-    }
-    
-    (req as any).user = payload;
+    // Assign user to req object according to our Express typings
+    req.user = {
+      id: payload.userId,
+      role: payload.role as any, // casting as any to avoid importing Role enum from prisma here if preferred, or we can just let it be assigned since role is a string in payload
+    };
     
     next();
   } catch (error) {
@@ -32,7 +31,7 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
 export const requireRole = (role: string) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = (req as any).user;
+      const user = req.user;
       console.log('requireRole check:', { expectedRole: role, userRole: user?.role, user });
       if (!user) {
         throw new UnauthorizedError('User not authenticated');

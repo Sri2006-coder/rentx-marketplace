@@ -23,7 +23,7 @@ export class ItemController {
 
   static async getItemById(req: Request, res: Response, next: NextFunction) {
     try {
-      const item = await ItemService.getItemById(req.params.id);
+      const item = await ItemService.getItemById(req.params.id as string);
       res.status(200).json({ success: true, data: item, message: 'Item retrieved successfully' });
     } catch (error) {
       next(error);
@@ -32,7 +32,7 @@ export class ItemController {
 
   static async updateItem(req: Request, res: Response, next: NextFunction) {
     try {
-      const item = await ItemService.updateItem(req.params.id, req.user!.id, req.body);
+      const item = await ItemService.updateItem(req.params.id as string, req.user!.id, req.body);
       res.status(200).json({ success: true, data: item, message: 'Item updated successfully' });
     } catch (error) {
       next(error);
@@ -41,7 +41,7 @@ export class ItemController {
 
   static async deleteItem(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await ItemService.deleteItem(req.params.id, req.user!.id);
+      const result = await ItemService.deleteItem(req.params.id as string, req.user!.id);
       res.status(200).json({ success: true, data: result, message: 'Item deleted successfully' });
     } catch (error) {
       next(error);

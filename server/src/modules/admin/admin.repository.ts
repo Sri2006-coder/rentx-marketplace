@@ -25,6 +25,14 @@ export class AdminRepository {
 
     const totalRevenue = completedPayments.reduce((sum, p) => sum + Number(p.amount), 0);
 
+    const totalConversations = await db.conversation.count();
+    const totalMessages = await db.message.count();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const activeChatsToday = await db.conversation.count({
+      where: { updatedAt: { gte: today } }
+    });
+
     return {
       totalUsers,
       verifiedUsers,
@@ -34,7 +42,10 @@ export class AdminRepository {
       pendingPayments,
       openDisputes,
       pendingVerifications,
-      totalRevenue
+      totalRevenue,
+      totalConversations,
+      totalMessages,
+      activeChatsToday
     };
   }
 

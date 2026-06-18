@@ -21,7 +21,7 @@ export class AuthService {
       passwordHash,
     });
 
-    const payload = { id: user.id, role: user.role };
+    const payload = { userId: user.id, role: user.role };
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 
@@ -44,7 +44,7 @@ export class AuthService {
       throw new UnauthorizedError('Invalid email or password');
     }
 
-    const payload = { id: user.id, role: user.role };
+    const payload = { userId: user.id, role: user.role };
     const accessToken = generateAccessToken(payload);
     const refreshToken = generateRefreshToken(payload);
 

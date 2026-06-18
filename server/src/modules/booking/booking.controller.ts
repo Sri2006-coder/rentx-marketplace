@@ -31,7 +31,7 @@ export class BookingController {
 
   static async getBookingDetails(req: Request, res: Response, next: NextFunction) {
     try {
-      const booking = await BookingService.getBookingDetails(req.params.id);
+      const booking = await BookingService.getBookingDetails(req.params.id as string);
       res.status(200).json({ success: true, data: booking, message: 'Booking details retrieved' });
     } catch (error) {
       next(error);
@@ -42,7 +42,7 @@ export class BookingController {
     try {
       const { id } = req.params;
       const { status, ...additionalData } = req.body;
-      const booking = await BookingService.updateStatus(id, req.user!.id, status, additionalData);
+      const booking = await BookingService.updateStatus(id as string, req.user!.id, status, additionalData);
       res.json({ success: true, data: booking, message: `Booking status updated to ${status}` });
     } catch (error: any) {
       res.status(error.statusCode || 500).json({ success: false, message: error.message });

@@ -1,0 +1,24 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const admin_controller_1 = require("./admin.controller");
+const requireAuth_1 = require("@/api/middlewares/requireAuth");
+const router = (0, express_1.Router)();
+// Protect all admin routes
+router.use(requireAuth_1.requireAuth, (0, requireAuth_1.requireRole)('ADMIN'));
+router.get('/dashboard/metrics', admin_controller_1.AdminController.getDashboardMetrics);
+router.get('/users', admin_controller_1.AdminController.getUsers);
+router.put('/users/:id/suspend', admin_controller_1.AdminController.suspendUser);
+router.put('/users/:id/activate', admin_controller_1.AdminController.activateUser);
+router.get('/verifications', admin_controller_1.AdminController.getVerifications);
+router.put('/verifications/:id/approve', admin_controller_1.AdminController.approveVerification);
+router.put('/verifications/:id/reject', admin_controller_1.AdminController.rejectVerification);
+router.get('/items', admin_controller_1.AdminController.getItems);
+router.put('/items/:id/status', admin_controller_1.AdminController.updateItemStatus);
+router.get('/bookings', admin_controller_1.AdminController.getBookings);
+router.put('/bookings/:id/cancel', admin_controller_1.AdminController.cancelBooking);
+router.get('/payments', admin_controller_1.AdminController.getPayments);
+router.get('/disputes', admin_controller_1.AdminController.getDisputes);
+router.put('/disputes/:id/status', admin_controller_1.AdminController.updateDisputeStatus);
+router.get('/audit', admin_controller_1.AdminController.getAuditLogs);
+exports.default = router;

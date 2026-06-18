@@ -19,7 +19,7 @@ export class ReviewController {
   static async getReviewsForItem(req: Request, res: Response, next: NextFunction) {
     try {
       const query = await getReviewsQuerySchema.parseAsync(req.query);
-      const result = await ReviewService.getReviewsForItem(req.params.id, query);
+      const result = await ReviewService.getReviewsForItem(req.params.id as string, query);
       res.status(200).json({
         success: true,
         data: {
@@ -41,7 +41,7 @@ export class ReviewController {
   static async getReviewsForUser(req: Request, res: Response, next: NextFunction) {
     try {
       const query = await getReviewsQuerySchema.parseAsync(req.query);
-      const result = await ReviewService.getReviewsForUser(req.params.id, query);
+      const result = await ReviewService.getReviewsForUser(req.params.id as string, query);
       res.status(200).json({
         success: true,
         data: {
@@ -62,7 +62,7 @@ export class ReviewController {
 
   static async getUserReputation(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await ReviewService.getUserReputation(req.params.id);
+      const result = await ReviewService.getUserReputation(req.params.id as string);
       res.status(200).json({
         success: true,
         data: result,

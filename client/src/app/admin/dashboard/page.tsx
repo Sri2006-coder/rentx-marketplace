@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { api } from '@/lib/api';
 import { Card, CardContent } from '@/components/ui/card';
-import { Users, ShieldCheck, Package, CalendarDays, CreditCard, Scale, AlertTriangle } from 'lucide-react';
+import { Users, ShieldCheck, Package, CalendarDays, CreditCard, Scale, AlertTriangle, MessageSquare } from 'lucide-react';
 
 export default function AdminDashboard() {
   const [metrics, setMetrics] = useState<any>(null);
@@ -37,6 +37,9 @@ export default function AdminDashboard() {
     { title: 'Pending Payments', value: metrics?.pendingPayments || 0, icon: CreditCard, color: 'text-yellow-500', bg: 'bg-yellow-500/10' },
     { title: 'Open Disputes', value: metrics?.openDisputes || 0, icon: Scale, color: 'text-red-500', bg: 'bg-red-500/10' },
     { title: 'Pending Verifications', value: metrics?.pendingVerifications || 0, icon: AlertTriangle, color: 'text-yellow-500', bg: 'bg-yellow-500/10' },
+    { title: 'Total Conversations', value: metrics?.totalConversations || 0, icon: MessageSquare, color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
+    { title: 'Total Messages', value: metrics?.totalMessages || 0, icon: MessageSquare, color: 'text-indigo-500', bg: 'bg-indigo-500/10' },
+    { title: 'Active Chats Today', value: metrics?.activeChatsToday || 0, icon: MessageSquare, color: 'text-pink-500', bg: 'bg-pink-500/10' },
   ];
 
   return (
