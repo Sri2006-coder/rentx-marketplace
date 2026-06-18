@@ -8,12 +8,11 @@ export class AuthController {
       const data = req.body as RegisterInput;
       const result = await AuthService.register(data);
 
-      // Set tokens in HTTP-only cookies
       res.cookie('accessToken', result.accessToken, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 15 * 60 * 1000 // 15 minutes
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
       });
 
       res.cookie('refreshToken', result.refreshToken, {
@@ -38,7 +37,7 @@ export class AuthController {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 15 * 60 * 1000
+        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
       });
 
       res.cookie('refreshToken', result.refreshToken, {
@@ -59,6 +58,18 @@ export class AuthController {
       res.clearCookie('accessToken');
       res.clearCookie('refreshToken');
       res.status(200).json({ success: true, message: 'Logged out successfully' });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  static async getMe(req: Request, res: Response, next: NextFunction) {
+    try {
+      // @ts-ignore - req.user is set by requireAuth middleware
+      const userId = req.user.id;
+      const user = await AuthService.getMe(userId);
+      
+      res.status(200).json({ success: true, data: { user } });
     } catch (error) {
       next(error);
     }

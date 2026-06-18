@@ -1,13 +1,34 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { categories, mockItems } from '@/lib/mockData';
-import { Search, ChevronRight, Star } from 'lucide-react';
+import { categories } from '@/lib/mockData';
+import { Search, ChevronRight, Package } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
+import { api } from '@/lib/api';
+import { RatingStars } from '@/components/ui/RatingStars';
+import { WishlistButton } from '@/components/ui/WishlistButton';
 
 export default function Home() {
+  const [featuredItems, setFeaturedItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        const res = await api.get('/items?limit=8');
+        setFeaturedItems(res.data.data.items);
+      } catch (err) {
+        console.error('Failed to fetch items:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchItems();
+  }, []);
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -89,7 +110,6 @@ export default function Home() {
                 className="group cursor-pointer p-6 rounded-2xl bg-white/5 border border-white/5 hover:border-primary/50 hover:bg-white/10 transition-all text-center flex flex-col items-center justify-center gap-4"
               >
                 <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center group-hover:bg-primary transition-colors">
-                  {/* For mock data, we'll just use a generic package icon, in a real app map icon names to Lucide icons */}
                   <span className="text-xl font-bold text-primary group-hover:text-primary-foreground">
                     {cat.name.charAt(0)}
                   </span>
@@ -106,41 +126,61 @@ export default function Home() {
         <div className="container px-4 mx-auto">
           <h2 className="text-3xl font-bold tracking-tight mb-10">Featured Equipment</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {mockItems.map((item, i) => (
-              <Link href={`/items/${item.id}`} key={item.id}>
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  viewport={{ once: true }}
-                  className="group rounded-2xl bg-card border border-white/5 overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/5"
-                >
-                  <div className="aspect-[4/3] relative overflow-hidden bg-muted">
-                    <img
-                      src={item.images[0]}
-                      alt={item.title}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2 py-1 rounded-full flex items-center gap-1 text-xs font-medium">
-                      <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
-                      {item.rating}
-                    </div>
-                  </div>
-                  <div className="p-5">
-                    <div className="text-xs font-medium text-primary mb-2 uppercase tracking-wider">{item.category}</div>
-                    <h3 className="font-semibold text-lg line-clamp-1 mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-1">{item.city}, {item.state}</p>
-                    <div className="flex items-center justify-between">
-                      <div className="font-bold text-lg">
-                        ${item.dailyRate} <span className="text-sm font-normal text-muted-foreground">/ day</span>
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          ) : featuredItems.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
+              <Package className="w-12 h-12 mb-4 text-white/20" />
+              <p>No items have been listed yet. Be the first to list an item!</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {featuredItems.map((item, i) => (
+                <Link href={`/items/${item.id}`} key={item.id}>
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: i * 0.1 }}
+                    viewport={{ once: true }}
+                    className="group rounded-2xl bg-card border border-white/5 overflow-hidden hover:border-primary/50 transition-all hover:shadow-lg hover:shadow-primary/5"
+                  >
+                    <div className="aspect-[4/3] relative overflow-hidden bg-muted">
+                      {item.images && item.images.length > 0 ? (
+                        <Image
+                          unoptimized
+                          src={item.images[0].imageUrl}
+                          alt={item.title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-white/5 text-muted-foreground">No Image</div>
+                      )}
+                      <div className="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full flex items-center gap-1.5 text-xs font-medium border border-white/10">
+                        <RatingStars rating={item.averageRating} starClassName="w-3 h-3" />
+                        <span className="text-white font-semibold">{item.averageRating > 0 ? item.averageRating.toFixed(1) : 'New'}</span>
+                      </div>
+                      <div className="absolute top-3 left-3">
+                        <WishlistButton itemId={item.id} />
                       </div>
                     </div>
-                  </div>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
+                    <div className="p-5">
+                      <div className="text-xs font-medium text-primary mb-2 uppercase tracking-wider">{item.category}</div>
+                      <h3 className="font-semibold text-lg line-clamp-1 mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
+                      <p className="text-sm text-muted-foreground mb-4 line-clamp-1">{item.city}{item.state ? `, ${item.state}` : ''}</p>
+                      <div className="flex items-center justify-between">
+                        <div className="font-bold text-lg">
+                          ${item.dailyRate} <span className="text-sm font-normal text-muted-foreground">/ day</span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </div>

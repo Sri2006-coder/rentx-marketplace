@@ -2,15 +2,22 @@ import { Request, Response, NextFunction } from 'express';
 import { AnyZodObject, ZodError } from 'zod';
 import { BadRequestError } from '@/core/exceptions/AppError';
 
-export const validate = (schema: AnyZodObject) => {
+export const validate = (schema: AnyZodObject, source: 'body' | 'query' | 'params' = 'body') => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await schema.parseAsync(req.body);
+      const validatedData = await schema.parseAsync(req[source]);
+      Object.defineProperty(req, source, {
+        value: validatedData,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      });
       next();
     } catch (error) {
       if (error instanceof ZodError) {
-        const messages = error.errors.map((err) => `${err.path.join('.')}: ${err.message}`).join(', ');
-        next(new BadRequestError(messages));
+        const issues = error.issues || error.errors || [];
+        const messages = issues.map((err: any) => `${err.path.join('.')}: ${err.message}`).join(', ');
+        next(new BadRequestError(messages || 'Validation failed'));
       } else {
         next(error);
       }

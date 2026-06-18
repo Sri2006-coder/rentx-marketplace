@@ -2,13 +2,13 @@
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { Search, User, Menu, Package } from 'lucide-react';
-import { useState } from 'react';
+import { Search, Menu, Package, Bell, User, Heart } from 'lucide-react';
+import { useAuth } from '@/context/AuthContext';
+import { useWishlist } from '@/context/WishlistContext';
 
 export default function Navbar() {
-  const [isScrolled, setIsScrolled] = useState(false);
-
-  // In a real app, you would add an event listener for scroll to toggle glassmorphism
+  const { user, logout } = useAuth();
+  const { wishlistCount } = useWishlist();
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-lg border-b border-white/10">
@@ -34,22 +34,56 @@ export default function Navbar() {
         </div>
 
         <div className="hidden md:flex items-center gap-4">
-          <Link href="/items/create" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
-            List an Item
+          <Link href="/search" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Browse
           </Link>
-          <div className="h-4 w-px bg-white/10 mx-2" />
-          <Link href="/dashboard/owner" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            Owner 
-          </Link>
-          <Link href="/dashboard/renter" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
-            Renter 
-          </Link>
-          <Link href="/profile" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors mr-2">
-            Profile 
-          </Link>
-          <Link href="/login">
-            <Button variant="ghost" className="text-sm">Log in</Button>
-          </Link>
+          
+          {user ? (
+            <>
+              <Link href="/verification" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors mr-2">
+                Verification
+              </Link>
+              <Link href="/items/create" className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+                List Item
+              </Link>
+              <div className="h-4 w-px bg-white/10 mx-2" />
+              <Link href="/my-listings" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                My Listings
+              </Link>
+              <Link href="/my-rentals" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+                My Rentals
+              </Link>
+              <Link href="/payments" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors mr-2">
+                Payments
+              </Link>
+              <Link href="/wishlist" className="text-muted-foreground hover:text-foreground transition-colors relative">
+                <Heart className="w-5 h-5" />
+                {wishlistCount > 0 && (
+                  <span className="absolute -top-2 -right-2.5 min-w-[18px] h-[18px] bg-red-500 rounded-full border-2 border-background text-[10px] font-bold flex items-center justify-center text-white px-1">
+                    {wishlistCount > 99 ? '99+' : wishlistCount}
+                  </span>
+                )}
+              </Link>
+              <button className="text-muted-foreground hover:text-foreground transition-colors relative">
+                <Bell className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary rounded-full border-2 border-background"></span>
+              </button>
+              <Link href="/profile" className="text-muted-foreground hover:text-foreground transition-colors mx-2">
+                <User className="w-5 h-5" />
+              </Link>
+              <Button variant="ghost" className="text-sm" onClick={logout}>Logout</Button>
+            </>
+          ) : (
+            <>
+              <div className="h-4 w-px bg-white/10 mx-2" />
+              <Link href="/login">
+                <Button variant="ghost" className="text-sm">Log in</Button>
+              </Link>
+              <Link href="/register">
+                <Button className="text-sm">Sign up</Button>
+              </Link>
+            </>
+          )}
         </div>
 
         <button className="md:hidden p-2 text-foreground">

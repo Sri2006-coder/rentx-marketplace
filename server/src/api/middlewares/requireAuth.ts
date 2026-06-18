@@ -11,10 +11,39 @@ export const requireAuth = (req: Request, res: Response, next: NextFunction) => 
     }
 
     const payload = verifyAccessToken(token);
+    
+    // Backward compatibility for existing tokens that used 'userId' instead of 'id'
+    if (payload.userId && !payload.id) {
+      payload.id = payload.userId;
+    }
+    
     (req as any).user = payload;
     
     next();
   } catch (error) {
-    next(new UnauthorizedError('Invalid or expired authentication token'));
+    if (error instanceof UnauthorizedError) {
+      next(error);
+    } else {
+      next(new UnauthorizedError('Invalid or expired authentication token'));
+    }
   }
+};
+
+export const requireRole = (role: string) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const user = (req as any).user;
+      console.log('requireRole check:', { expectedRole: role, userRole: user?.role, user });
+      if (!user) {
+        throw new UnauthorizedError('User not authenticated');
+      }
+      if (user.role !== role) {
+        res.status(403).json({ success: false, message: 'Forbidden: Insufficient permissions' });
+        return;
+      }
+      next();
+    } catch (error) {
+      next(error);
+    }
+  };
 };

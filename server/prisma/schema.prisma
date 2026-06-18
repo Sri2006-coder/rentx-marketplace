@@ -29,6 +29,38 @@ enum BookingStatus {
   CANCELLED
 }
 
+enum PaymentStatus {
+  PENDING
+  PAID
+  ESCROW_HELD
+  FAILED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CARD
+  UPI
+  MOCK
+}
+
+enum DamageReport {
+  NONE
+  MINOR
+  MAJOR
+}
+
+enum DisputeStatus {
+  OPEN
+  UNDER_REVIEW
+  RESOLVED
+  CLOSED
+}
+
+enum UserStatus {
+  ACTIVE
+  SUSPENDED
+}
+
 // MODELS
 model User {
   id           String   @id @default(uuid())
@@ -37,14 +69,21 @@ model User {
   email        String   @unique
   passwordHash String
   role         Role     @default(USER)
+  status       UserStatus @default(ACTIVE)
   profileImage String?
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  items        Item[]    @relation("UserItems")
-  bookings     Booking[] @relation("UserBookings")
-  wishlists    Wishlist[]
-  auditLogs    AuditLog[]
+  items           Item[]         @relation("UserItems")
+  bookings        Booking[]      @relation("UserBookings")
+  wishlists       Wishlist[]
+  auditLogs       AuditLog[]
+  reviewsGiven    Review[]       @relation("ReviewsGiven")
+  reviewsReceived Review[]       @relation("ReviewsReceived")
+  trustProfile    TrustProfile?
+  payments        Payment[]
+  disputesFiled   Dispute[]      @relation("DisputesFiled")
+  disputesAgainst Dispute[]      @relation("DisputesAgainst")
 }
 
 model Item {
@@ -59,6 +98,7 @@ model Item {
   city            String
   state           String?
   status          ItemStatus @default(ACTIVE)
+  requireVerified Boolean    @default(false)
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
   deletedAt       DateTime?
@@ -68,6 +108,7 @@ model Item {
   bookings        Booking[]
   wishlists       Wishlist[]
   availabilities  Availability[]
+  reviews         Review[]
 
   @@index([category])
   @@index([ownerId])
@@ -97,11 +138,15 @@ model Booking {
   actualReturnDate DateTime?
   lateFee          Decimal?
   notes            String?
+  damageReport     DamageReport?
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 
   item             Item          @relation(fields: [itemId], references: [id])
   renter           User          @relation("UserBookings", fields: [renterId], references: [id])
+  reviews          Review[]
+  payments         Payment[]
+  disputes         Dispute[]
 
   @@index([itemId])
   @@index([renterId])
@@ -147,4 +192,91 @@ model AuditLog {
 
   @@index([entityType, entityId])
   @@index([userId])
+}
+
+model Review {
+  id          String   @id @default(uuid())
+  bookingId   String
+  itemId      String
+  reviewerId  String
+  revieweeId  String
+  rating      Int
+  comment     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  booking     Booking  @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  item        Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  reviewer    User     @relation("ReviewsGiven", fields: [reviewerId], references: [id], onDelete: Cascade)
+  reviewee    User     @relation("ReviewsReceived", fields: [revieweeId], references: [id], onDelete: Cascade)
+
+  @@unique([bookingId, reviewerId])
+  @@index([itemId])
+  @@index([reviewerId])
+  @@index([revieweeId])
+}
+
+model TrustProfile {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  aadhaarUrl      String?
+  panUrl          String?
+  aadhaarStatus   String   @default("UNVERIFIED")
+  panStatus       String   @default("UNVERIFIED")
+  emailVerified   Boolean  @default(false)
+  phoneVerified   Boolean  @default(false)
+  trustScore      Int      @default(0)
+  verifiedBadge   Boolean  @default(false)
+  selfieUrl       String?
+  faceMatchScore  Float?
+  ocrText         String?
+  verifiedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Payment {
+  id              String        @id @default(uuid())
+  bookingId       String
+  renterId        String
+  amount          Decimal
+  securityDeposit Decimal
+  totalAmount     Decimal
+  paymentStatus   PaymentStatus @default(PENDING)
+  paymentMethod   PaymentMethod @default(MOCK)
+  transactionId   String?       @unique
+  paidAt          DateTime?
+  refundedAt      DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  booking         Booking       @relation(fields: [bookingId], references: [id])
+  renter          User          @relation(fields: [renterId], references: [id])
+
+  @@index([bookingId])
+  @@index([renterId])
+  @@index([paymentStatus])
+}
+
+model Dispute {
+  id          String        @id @default(uuid())
+  bookingId   String
+  filerId     String
+  againstId   String
+  description String
+  evidenceUrl String?
+  status      DisputeStatus @default(OPEN)
+  resolution  String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  booking     Booking       @relation(fields: [bookingId], references: [id])
+  filer       User          @relation("DisputesFiled", fields: [filerId], references: [id])
+  against     User          @relation("DisputesAgainst", fields: [againstId], references: [id])
+
+  @@index([bookingId])
+  @@index([filerId])
+  @@index([status])
 }
