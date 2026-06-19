@@ -31,6 +31,14 @@ app.use((0, cors_1.default)({
 app.use(express_1.default.json());
 app.use((0, cookie_parser_1.default)());
 app.use('/uploads', express_1.default.static(path_1.default.join(__dirname, '../public/uploads')));
+// Health Check Route for Railway Deployment
+app.get('/', (req, res) => {
+    res.json({
+        status: "ok",
+        app: "RentX Backend",
+        environment: process.env.NODE_ENV || "development"
+    });
+});
 // API Routes
 app.use('/api/v1/auth', auth_routes_1.default);
 app.use('/api/v1/items', item_routes_1.default);

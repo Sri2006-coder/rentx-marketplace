@@ -31,6 +31,15 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, '../public/uploads')));
 
+// Health Check Route for Railway Deployment
+app.get('/', (req, res) => {
+  res.json({
+    status: "ok",
+    app: "RentX Backend",
+    environment: process.env.NODE_ENV || "development"
+  });
+});
+
 // API Routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/items', itemRoutes);
