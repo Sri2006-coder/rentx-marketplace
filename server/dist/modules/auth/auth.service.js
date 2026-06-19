@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const auth_repository_1 = require("./auth.repository");
-const AppError_1 = require("@/core/exceptions/AppError");
-const jwt_1 = require("@/core/utils/jwt");
-const password_1 = require("@/core/utils/password");
+const AppError_1 = require("../../core/exceptions/AppError");
+const jwt_1 = require("../../core/utils/jwt");
+const password_1 = require("../../core/utils/password");
 class AuthService {
     static async register(data) {
         const existingUser = await auth_repository_1.AuthRepository.findUserByEmail(data.email);

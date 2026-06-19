@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const booking_controller_1 = require("./booking.controller");
-const requireAuth_1 = require("@/api/middlewares/requireAuth");
-const validate_1 = require("@/api/middlewares/validate");
+const requireAuth_1 = require("../../api/middlewares/requireAuth");
+const validate_1 = require("../../api/middlewares/validate");
 const booking_schema_1 = require("./booking.schema");
 const router = (0, express_1.Router)();
 router.use(requireAuth_1.requireAuth);

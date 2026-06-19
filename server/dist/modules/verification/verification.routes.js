@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const verification_controller_1 = require("./verification.controller");
-const requireAuth_1 = require("@/api/middlewares/requireAuth");
-const upload_1 = require("@/api/middlewares/upload");
+const requireAuth_1 = require("../../api/middlewares/requireAuth");
+const upload_1 = require("../../api/middlewares/upload");
 const router = (0, express_1.Router)();
 // Require authentication for all routes
 router.use(requireAuth_1.requireAuth);

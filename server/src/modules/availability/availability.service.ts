@@ -1,6 +1,6 @@
 import { AvailabilityRepository } from './availability.repository';
-import { db } from '@/config/db';
-import { ForbiddenError, NotFoundError } from '@/core/exceptions/AppError';
+import { db } from '../../config/db';
+import { ForbiddenError, NotFoundError } from '../../core/exceptions/AppError';
 
 export class AvailabilityService {
   static async blockDates(userId: string, itemId: string, data: { blockedFrom: Date; blockedTo: Date; reason?: string }) {

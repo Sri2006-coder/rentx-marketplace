@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentRepository = void 0;
-const db_1 = require("@/config/db");
+const db_1 = require("../../config/db");
 const client_1 = require("@prisma/client");
 class PaymentRepository {
     static async createPayment(data) {

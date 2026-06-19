@@ -1,9 +1,9 @@
 import { BookingRepository } from './booking.repository';
 import { BookingStatus } from '@prisma/client';
 import { AuditService } from '../audit/audit.service';
-import { sendMockNotification } from '@/core/utils/notifications';
-import { ForbiddenError, NotFoundError, BadRequestError } from '@/core/exceptions/AppError';
-import { db } from '@/config/db';
+import { sendMockNotification } from '../../core/utils/notifications';
+import { ForbiddenError, NotFoundError, BadRequestError } from '../../core/exceptions/AppError';
+import { db } from '../../config/db';
 
 export class BookingService {
   static async requestBooking(userId: string, data: any) {

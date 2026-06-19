@@ -4,7 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.errorHandler = void 0;
-const AppError_1 = require("@/core/exceptions/AppError");
+const AppError_1 = require("../../core/exceptions/AppError");
 const fs_1 = __importDefault(require("fs"));
 const errorHandler = (err, req, res, next) => {
     console.error('[ERROR HANDLER]', err.message, err.stack);

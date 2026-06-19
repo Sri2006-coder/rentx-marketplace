@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const wishlist_controller_1 = require("./wishlist.controller");
-const requireAuth_1 = require("@/api/middlewares/requireAuth");
-const validate_1 = require("@/api/middlewares/validate");
+const requireAuth_1 = require("../../api/middlewares/requireAuth");
+const validate_1 = require("../../api/middlewares/validate");
 const wishlist_schema_1 = require("./wishlist.schema");
 const router = (0, express_1.Router)();
 // All wishlist routes require authentication

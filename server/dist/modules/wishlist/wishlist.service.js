@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.WishlistService = void 0;
 const wishlist_repository_1 = require("./wishlist.repository");
-const AppError_1 = require("@/core/exceptions/AppError");
+const AppError_1 = require("../../core/exceptions/AppError");
 class WishlistService {
     static async addToWishlist(userId, itemId) {
         // Check if already in wishlist

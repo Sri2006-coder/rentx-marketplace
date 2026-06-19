@@ -1,5 +1,5 @@
 import { VerificationRepository } from './verification.repository';
-import { NotFoundError, BadRequestError } from '@/core/exceptions/AppError';
+import { NotFoundError, BadRequestError } from '../../core/exceptions/AppError';
 
 export class VerificationService {
   /**

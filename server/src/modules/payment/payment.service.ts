@@ -1,9 +1,9 @@
 import { PaymentRepository } from './payment.repository';
 import { BookingRepository } from '../booking/booking.repository';
 import { PaymentStatus, BookingStatus } from '@prisma/client';
-import { NotFoundError, BadRequestError } from '@/core/exceptions/AppError';
+import { NotFoundError, BadRequestError } from '../../core/exceptions/AppError';
 import { AuditService } from '../audit/audit.service';
-import { db } from '@/config/db';
+import { db } from '../../config/db';
 
 // -----------------------------------------------------
 // Future Gateway Abstraction Layer

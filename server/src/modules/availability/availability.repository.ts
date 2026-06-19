@@ -1,6 +1,6 @@
-import { db } from '@/config/db';
+import { db } from '../../config/db';
 import { BookingStatus } from '@prisma/client';
-import { ConflictError, NotFoundError } from '@/core/exceptions/AppError';
+import { ConflictError, NotFoundError } from '../../core/exceptions/AppError';
 
 export class AvailabilityRepository {
   static async blockDates(data: { itemId: string; blockedFrom: Date; blockedTo: Date; reason?: string }) {

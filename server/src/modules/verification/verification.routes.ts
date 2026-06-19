@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { VerificationController } from './verification.controller';
-import { requireAuth } from '@/api/middlewares/requireAuth';
-import { upload } from '@/api/middlewares/upload';
+import { requireAuth } from '../../api/middlewares/requireAuth';
+import { upload } from '../../api/middlewares/upload';
 
 const router = Router();
 

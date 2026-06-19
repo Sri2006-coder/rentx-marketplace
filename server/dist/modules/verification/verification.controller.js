@@ -5,8 +5,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VerificationController = void 0;
 const verification_service_1 = require("./verification.service");
-const cloudinary_1 = __importDefault(require("@/config/cloudinary"));
-const AppError_1 = require("@/core/exceptions/AppError");
+const cloudinary_1 = __importDefault(require("../../config/cloudinary"));
+const AppError_1 = require("../../core/exceptions/AppError");
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 class VerificationController {

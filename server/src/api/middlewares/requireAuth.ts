@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { verifyAccessToken } from '@/core/utils/jwt';
-import { UnauthorizedError } from '@/core/exceptions/AppError';
+import { verifyAccessToken } from '../../core/utils/jwt';
+import { UnauthorizedError } from '../../core/exceptions/AppError';
 
 export const requireAuth = (req: Request, res: Response, next: NextFunction) => {
   try {

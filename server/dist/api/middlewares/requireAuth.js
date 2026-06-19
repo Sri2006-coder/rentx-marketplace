@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.requireRole = exports.requireAuth = void 0;
-const jwt_1 = require("@/core/utils/jwt");
-const AppError_1 = require("@/core/exceptions/AppError");
+const jwt_1 = require("../../core/utils/jwt");
+const AppError_1 = require("../../core/exceptions/AppError");
 const requireAuth = (req, res, next) => {
     try {
         const token = req.cookies?.accessToken || req.headers.authorization?.split(' ')[1];

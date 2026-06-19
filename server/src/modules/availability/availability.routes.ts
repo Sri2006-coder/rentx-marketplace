@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { AvailabilityController } from './availability.controller';
-import { requireAuth } from '@/api/middlewares/requireAuth';
-import { validate } from '@/api/middlewares/validate';
+import { requireAuth } from '../../api/middlewares/requireAuth';
+import { validate } from '../../api/middlewares/validate';
 import { blockDatesSchema } from './availability.schema';
 
 // Note: This router is meant to be mounted under /api/v1/items/:itemId/availability

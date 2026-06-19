@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const availability_controller_1 = require("./availability.controller");
-const requireAuth_1 = require("@/api/middlewares/requireAuth");
-const validate_1 = require("@/api/middlewares/validate");
+const requireAuth_1 = require("../../api/middlewares/requireAuth");
+const validate_1 = require("../../api/middlewares/validate");
 const availability_schema_1 = require("./availability.schema");
 // Note: This router is meant to be mounted under /api/v1/items/:itemId/availability
 const router = (0, express_1.Router)({ mergeParams: true });

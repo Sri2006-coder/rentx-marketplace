@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthRepository = void 0;
-const db_1 = require("@/config/db");
+const db_1 = require("../../config/db");
 class AuthRepository {
     static async findUserByEmail(email) {
         return db_1.db.user.findUnique({ where: { email } });

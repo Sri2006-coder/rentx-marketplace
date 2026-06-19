@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const review_controller_1 = require("./review.controller");
-const requireAuth_1 = require("@/api/middlewares/requireAuth");
-const validate_1 = require("@/api/middlewares/validate");
+const requireAuth_1 = require("../../api/middlewares/requireAuth");
+const validate_1 = require("../../api/middlewares/validate");
 const review_schema_1 = require("./review.schema");
 const router = (0, express_1.Router)();
 // POST /api/v1/reviews

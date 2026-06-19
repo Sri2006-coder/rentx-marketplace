@@ -1,4 +1,4 @@
-import { db } from '@/config/db';
+import { db } from '../../config/db';
 import { Prisma, BookingStatus } from '@prisma/client';
 
 export class ReviewRepository {

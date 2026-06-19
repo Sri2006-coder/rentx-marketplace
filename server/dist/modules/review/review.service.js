@@ -2,9 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReviewService = void 0;
 const review_repository_1 = require("./review.repository");
-const db_1 = require("@/config/db");
+const db_1 = require("../../config/db");
 const client_1 = require("@prisma/client");
-const AppError_1 = require("@/core/exceptions/AppError");
+const AppError_1 = require("../../core/exceptions/AppError");
 const audit_service_1 = require("../audit/audit.service");
 const verification_service_1 = require("../verification/verification.service");
 class ReviewService {

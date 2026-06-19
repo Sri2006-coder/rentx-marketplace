@@ -1,8 +1,8 @@
 import { ItemRepository } from './item.repository';
 import { CreateItemInput, ItemQueryInput, UpdateItemInput } from './item.schema';
-import { NotFoundError, ForbiddenError } from '@/core/exceptions/AppError';
+import { NotFoundError, ForbiddenError } from '../../core/exceptions/AppError';
 
-import cloudinary from '@/config/cloudinary';
+import cloudinary from '../../config/cloudinary';
 import fs from 'fs';
 import path from 'path';
 

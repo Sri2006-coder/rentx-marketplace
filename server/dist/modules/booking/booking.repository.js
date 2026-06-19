@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookingRepository = void 0;
-const db_1 = require("@/config/db");
+const db_1 = require("../../config/db");
 const client_1 = require("@prisma/client");
-const AppError_1 = require("@/core/exceptions/AppError");
+const AppError_1 = require("../../core/exceptions/AppError");
 class BookingRepository {
     static async createBooking(data) {
         return db_1.db.$transaction(async (tx) => {

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { requireAuth } from '@/api/middlewares/requireAuth';
+import { requireAuth } from '../../api/middlewares/requireAuth';
 import { createPaymentIntent, mockSuccess, mockFailure, getPaymentHistory } from './payment.controller';
 
 const router = Router();

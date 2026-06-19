@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const admin_controller_1 = require("./admin.controller");
-const requireAuth_1 = require("@/api/middlewares/requireAuth");
+const requireAuth_1 = require("../../api/middlewares/requireAuth");
 const router = (0, express_1.Router)();
 // Protect all admin routes
 router.use(requireAuth_1.requireAuth, (0, requireAuth_1.requireRole)('ADMIN'));

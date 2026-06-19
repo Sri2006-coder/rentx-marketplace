@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { BookingController } from './booking.controller';
-import { requireAuth } from '@/api/middlewares/requireAuth';
-import { validate } from '@/api/middlewares/validate';
+import { requireAuth } from '../../api/middlewares/requireAuth';
+import { validate } from '../../api/middlewares/validate';
 import { createBookingSchema, updateBookingStatusSchema } from './booking.schema';
 
 const router = Router();

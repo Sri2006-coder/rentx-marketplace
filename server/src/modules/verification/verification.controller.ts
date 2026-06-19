@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { VerificationService } from './verification.service';
-import cloudinary from '@/config/cloudinary';
-import { BadRequestError } from '@/core/exceptions/AppError';
+import cloudinary from '../../config/cloudinary';
+import { BadRequestError } from '../../core/exceptions/AppError';
 import fs from 'fs';
 import path from 'path';
 

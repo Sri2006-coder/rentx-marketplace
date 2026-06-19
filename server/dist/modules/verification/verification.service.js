@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VerificationService = void 0;
 const verification_repository_1 = require("./verification.repository");
-const AppError_1 = require("@/core/exceptions/AppError");
+const AppError_1 = require("../../core/exceptions/AppError");
 class VerificationService {
     /**
      * Recalculates and updates the trust score dynamically based on rules:

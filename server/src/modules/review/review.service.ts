@@ -1,8 +1,8 @@
 import { ReviewRepository } from './review.repository';
 import { CreateReviewInput } from './review.schema';
-import { db } from '@/config/db';
+import { db } from '../../config/db';
 import { BookingStatus } from '@prisma/client';
-import { NotFoundError, BadRequestError, ForbiddenError } from '@/core/exceptions/AppError';
+import { NotFoundError, BadRequestError, ForbiddenError } from '../../core/exceptions/AppError';
 import { AuditService } from '../audit/audit.service';
 import { VerificationService } from '../verification/verification.service';
 

@@ -1,6 +1,6 @@
-import { db } from '@/config/db';
+import { db } from '../../config/db';
 import { BookingStatus, Prisma } from '@prisma/client';
-import { ConflictError, NotFoundError } from '@/core/exceptions/AppError';
+import { ConflictError, NotFoundError } from '../../core/exceptions/AppError';
 
 export class BookingRepository {
   static async createBooking(data: {

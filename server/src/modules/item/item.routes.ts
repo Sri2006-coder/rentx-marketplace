@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { ItemController } from './item.controller';
-import { validate } from '@/api/middlewares/validate';
+import { validate } from '../../api/middlewares/validate';
 import { createItemSchema, updateItemSchema, itemQuerySchema } from './item.schema';
-import { requireAuth } from '@/api/middlewares/requireAuth';
-import { upload } from '@/api/middlewares/upload';
+import { requireAuth } from '../../api/middlewares/requireAuth';
+import { upload } from '../../api/middlewares/upload';
 import availabilityRoutes from '../availability/availability.routes';
 
 const router = Router();

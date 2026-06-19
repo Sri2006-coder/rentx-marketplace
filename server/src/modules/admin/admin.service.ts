@@ -1,6 +1,6 @@
 import { AdminRepository } from './admin.repository';
 import { AuditService } from '../audit/audit.service';
-import { NotFoundError } from '@/core/exceptions/AppError';
+import { NotFoundError } from '../../core/exceptions/AppError';
 
 export class AdminService {
   static async getDashboardMetrics() {

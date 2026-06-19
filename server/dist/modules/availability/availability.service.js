@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AvailabilityService = void 0;
 const availability_repository_1 = require("./availability.repository");
-const db_1 = require("@/config/db");
-const AppError_1 = require("@/core/exceptions/AppError");
+const db_1 = require("../../config/db");
+const AppError_1 = require("../../core/exceptions/AppError");
 class AvailabilityService {
     static async blockDates(userId, itemId, data) {
         const item = await db_1.db.item.findUnique({ where: { id: itemId } });

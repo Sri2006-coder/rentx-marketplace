@@ -1,8 +1,8 @@
 import { AuthRepository } from './auth.repository';
 import { LoginInput, RegisterInput } from './auth.schema';
-import { BadRequestError, UnauthorizedError, NotFoundError } from '@/core/exceptions/AppError';
-import { generateAccessToken, generateRefreshToken } from '@/core/utils/jwt';
-import { PasswordUtil } from '@/core/utils/password';
+import { BadRequestError, UnauthorizedError, NotFoundError } from '../../core/exceptions/AppError';
+import { generateAccessToken, generateRefreshToken } from '../../core/utils/jwt';
+import { PasswordUtil } from '../../core/utils/password';
 
 export class AuthService {
   static async register(data: RegisterInput) {

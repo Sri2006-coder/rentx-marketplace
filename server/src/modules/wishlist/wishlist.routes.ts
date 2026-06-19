@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { WishlistController } from './wishlist.controller';
-import { requireAuth } from '@/api/middlewares/requireAuth';
-import { validate } from '@/api/middlewares/validate';
+import { requireAuth } from '../../api/middlewares/requireAuth';
+import { validate } from '../../api/middlewares/validate';
 import { addToWishlistSchema } from './wishlist.schema';
 
 const router = Router();

@@ -1,4 +1,4 @@
-import { db } from '@/config/db';
+import { db } from '../../config/db';
 import { Prisma, Item, ItemStatus } from '@prisma/client';
 import { CreateItemInput, ItemQueryInput, UpdateItemInput } from './item.schema';
 

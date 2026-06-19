@@ -4,9 +4,9 @@ exports.PaymentService = void 0;
 const payment_repository_1 = require("./payment.repository");
 const booking_repository_1 = require("../booking/booking.repository");
 const client_1 = require("@prisma/client");
-const AppError_1 = require("@/core/exceptions/AppError");
+const AppError_1 = require("../../core/exceptions/AppError");
 const audit_service_1 = require("../audit/audit.service");
-const db_1 = require("@/config/db");
+const db_1 = require("../../config/db");
 class MockGateway {
     async createOrder(amount, currency, receipt) {
         return { id: `MOCK_ORDER_${Date.now()}`, amount, currency, receipt, status: 'created' };

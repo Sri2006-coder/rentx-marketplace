@@ -37,9 +37,9 @@ exports.BookingService = void 0;
 const booking_repository_1 = require("./booking.repository");
 const client_1 = require("@prisma/client");
 const audit_service_1 = require("../audit/audit.service");
-const notifications_1 = require("@/core/utils/notifications");
-const AppError_1 = require("@/core/exceptions/AppError");
-const db_1 = require("@/config/db");
+const notifications_1 = require("../../core/utils/notifications");
+const AppError_1 = require("../../core/exceptions/AppError");
+const db_1 = require("../../config/db");
 class BookingService {
     static async requestBooking(userId, data) {
         const item = await db_1.db.item.findUnique({ where: { id: data.itemId } });

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AvailabilityRepository = void 0;
-const db_1 = require("@/config/db");
+const db_1 = require("../../config/db");
 const client_1 = require("@prisma/client");
-const AppError_1 = require("@/core/exceptions/AppError");
+const AppError_1 = require("../../core/exceptions/AppError");
 class AvailabilityRepository {
     static async blockDates(data) {
         return db_1.db.$transaction(async (tx) => {

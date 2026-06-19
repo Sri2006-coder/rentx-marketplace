@@ -1,5 +1,5 @@
 import { WishlistRepository } from './wishlist.repository';
-import { ConflictError, NotFoundError } from '@/core/exceptions/AppError';
+import { ConflictError, NotFoundError } from '../../core/exceptions/AppError';
 
 export class WishlistService {
   static async addToWishlist(userId: string, itemId: string) {

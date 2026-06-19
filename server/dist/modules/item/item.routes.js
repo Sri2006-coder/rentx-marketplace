@@ -5,10 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
 const item_controller_1 = require("./item.controller");
-const validate_1 = require("@/api/middlewares/validate");
+const validate_1 = require("../../api/middlewares/validate");
 const item_schema_1 = require("./item.schema");
-const requireAuth_1 = require("@/api/middlewares/requireAuth");
-const upload_1 = require("@/api/middlewares/upload");
+const requireAuth_1 = require("../../api/middlewares/requireAuth");
+const upload_1 = require("../../api/middlewares/upload");
 const availability_routes_1 = __importDefault(require("../availability/availability.routes"));
 const router = (0, express_1.Router)();
 router.use('/:itemId/availability', availability_routes_1.default);

@@ -1,4 +1,4 @@
-import { db } from '@/config/db';
+import { db } from '../../config/db';
 import { PaymentStatus, PaymentMethod } from '@prisma/client';
 
 export class PaymentRepository {
