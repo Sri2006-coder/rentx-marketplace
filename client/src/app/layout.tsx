@@ -5,6 +5,7 @@ import Navbar from '@/components/shared/Navbar';
 import Footer from '@/components/shared/Footer';
 import { AuthProvider } from '@/context/AuthContext';
 import { WishlistProvider } from '@/context/WishlistContext';
+import { NotificationProvider } from '@/context/NotificationContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -22,13 +23,15 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={`${inter.className} min-h-screen bg-background text-foreground selection:bg-primary/30`}>
         <AuthProvider>
-          <WishlistProvider>
-            <Navbar />
-            <main className="pt-16 min-h-screen">
-              {children}
-            </main>
-            <Footer />
-          </WishlistProvider>
+          <NotificationProvider>
+            <WishlistProvider>
+              <Navbar />
+              <main className="pt-16 min-h-screen">
+                {children}
+              </main>
+              <Footer />
+            </WishlistProvider>
+          </NotificationProvider>
         </AuthProvider>
       </body>
     </html>

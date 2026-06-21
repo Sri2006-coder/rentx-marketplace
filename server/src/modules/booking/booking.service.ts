@@ -1,7 +1,7 @@
 import { BookingRepository } from './booking.repository';
 import { BookingStatus } from '@prisma/client';
 import { AuditService } from '../audit/audit.service';
-import { sendMockNotification } from '../../core/utils/notifications';
+import { NotificationService } from '../notification/notification.service';
 import { ForbiddenError, NotFoundError, BadRequestError } from '../../core/exceptions/AppError';
 import { db } from '../../config/db';
 
@@ -27,11 +27,12 @@ export class BookingService {
 
     await AuditService.logAction('BOOKING_REQUESTED', 'BOOKING', booking.id, userId);
 
-    sendMockNotification(
+    await NotificationService.createNotification(
       booking.item.ownerId,
       'New Booking Request',
-      `${booking.renter.firstName} has requested to book ${booking.item.title}.`
-    );
+      `${booking.renter.firstName} has requested to book ${booking.item.title}.`,
+      '/my-listings'
+    ).catch(console.error);
 
     return booking;
   }
@@ -105,17 +106,19 @@ export class BookingService {
 
     // Notify appropriate party
     if (newStatus === BookingStatus.APPROVED || newStatus === BookingStatus.REJECTED) {
-      sendMockNotification(
+      await NotificationService.createNotification(
         booking.renterId,
         `Booking ${newStatus}`,
-        `Your request for ${booking.item.title} has been ${newStatus.toLowerCase()}.`
-      );
+        `Your request for ${booking.item.title} has been ${newStatus.toLowerCase()}.`,
+        '/my-rentals'
+      ).catch(console.error);
     } else if (newStatus === BookingStatus.RETURNED || newStatus === BookingStatus.COMPLETED) {
-      sendMockNotification(
+      await NotificationService.createNotification(
         booking.item.ownerId,
         `Booking ${newStatus}`,
-        `${booking.renter.firstName} has marked the item as ${newStatus.toLowerCase()}.`
-      );
+        `${booking.renter.firstName} has marked the item as ${newStatus.toLowerCase()}.`,
+        '/my-listings'
+      ).catch(console.error);
     }
 
     return updatedBooking;

@@ -87,6 +87,7 @@ model User {
   conversationsAsOwner  Conversation[] @relation("ConversationsAsOwner")
   conversationsAsRenter Conversation[] @relation("ConversationsAsRenter")
   messagesSent          Message[]      @relation("MessagesSent")
+  notifications         Notification[]
 }
 
 model Item {
@@ -317,4 +318,18 @@ model Message {
 
   @@index([conversationId])
   @@index([senderId])
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  title     String
+  message   String
+  isRead    Boolean  @default(false)
+  link      String?
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }

@@ -1,8 +1,10 @@
 import { Server as SocketIOServer } from 'socket.io';
 import { Server as HttpServer } from 'http';
-import jwt from 'jsonwebtoken';
-import cookie from 'cookie';
+import { parse } from 'cookie';
 import { db } from './config/db';
+import { verifyAccessToken } from './core/utils/jwt';
+
+let ioInstance: SocketIOServer | null = null;
 
 export const initSocketIO = (server: HttpServer) => {
   const io = new SocketIOServer(server, {
@@ -12,23 +14,29 @@ export const initSocketIO = (server: HttpServer) => {
       credentials: true
     }
   });
+  ioInstance = io;
 
   // Authentication Middleware
   io.use((socket, next) => {
     try {
-      const cookies = cookie.parse(socket.handshake.headers.cookie || '');
-      const token = cookies.token;
-      if (!token) return next(new Error('Authentication error'));
-      const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as { id: string };
-      socket.data.userId = decoded.id;
+      const cookies = parse(socket.handshake.headers.cookie || '');
+      const token = cookies.accessToken;
+      if (!token) return next(new Error('Authentication error: Token missing'));
+      const decoded = verifyAccessToken(token);
+      socket.data.userId = decoded.userId;
       next();
     } catch (err) {
-      next(new Error('Authentication error'));
+      console.error('Socket authentication failed:', err);
+      next(new Error('Authentication error: Invalid token'));
     }
   });
 
   io.on('connection', (socket) => {
-    console.log(`User connected to chat socket: ${socket.data.userId}`);
+    const userId = socket.data.userId;
+    console.log(`User connected to chat socket: ${userId}`);
+
+    // Join personal user room for notifications
+    socket.join(`user_${userId}`);
 
     // Join a conversation room
     socket.on('join_room', (conversationId: string) => {
@@ -72,4 +80,13 @@ export const initSocketIO = (server: HttpServer) => {
   });
 
   return io;
+};
+
+export const sendRealtimeNotification = (userId: string, notification: any) => {
+  if (ioInstance) {
+    ioInstance.to(`user_${userId}`).emit('new_notification', notification);
+    console.log(`Real-time notification emitted to user_${userId}`);
+  } else {
+    console.warn('Socket.io instance is not initialized yet. Cannot send real-time notification.');
+  }
 };
